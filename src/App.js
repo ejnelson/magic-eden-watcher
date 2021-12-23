@@ -1,25 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
 import {Watcher} from './components/Watcher';
+import {useState}from 'react';
 
 function App() {
+const [projectName, setProjectName] = useState('')
+const [watcherName, setWatcherName] = useState('')
+  const handleChange=(event)=> {
+    setProjectName(event.target.value);
+  }
+
+  const handleSubmit=(event)=> {
+    event.preventDefault();
+    console.log('A name was submitted: ' + projectName);
+    setWatcherName(projectName)
+    // alert('A name was submitted: ' + projectName);
+  }
+
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <Watcher />
+      <label>
+        Magic eden string name:
+        <input type="text" name="projectName"  onChange={handleChange}/>
+      </label>
+      <button type="button"  onClick={handleSubmit} disabled={!!watcherName}>Submit</button>
+      {watcherName&&<Watcher projectName={watcherName}/>}
     </div>
   );
 }
