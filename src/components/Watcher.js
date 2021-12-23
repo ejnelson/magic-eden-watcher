@@ -11,46 +11,7 @@ import axios from 'axios';
 
 
 
-const options= {
 
-
-time: {
-    useUTC: false
-},
-
-rangeSelector: {
-    buttons: [{
-        count: 1,
-        type: 'minute',
-        text: '1M'
-    }, {
-        count: 5,
-        type: 'minute',
-        text: '5M'
-    }, {
-        type: 'all',
-        text: 'All'
-    }],
-    inputEnabled: false,
-    selected: 0
-},
-
-title: {
-    text: 'Chart'
-},
-
-exporting: {
-    enabled: false
-},
-
-series: [{
-    name: 'Price',
-    data: [ ]
-}],
-credits: {
-  enabled: false
-},
-}
 
 
 
@@ -69,10 +30,47 @@ const API = 'https://api-mainnet.magiceden.io/rpc/getCollectionEscrowStats/'
 
 const LAMPORTS_PER_SOL = 1000000000;
 
-export const Watcher=({projectName})=> {
+export const Watcher=({projectName,type})=> {
 const chartComponent=useRef(null); 
 
-
+const options= {
+  time: {
+      useUTC: false
+  },
+  
+  rangeSelector: {
+      buttons: [{
+          count: 1,
+          type: 'minute',
+          text: '1M'
+      }, {
+          count: 5,
+          type: 'minute',
+          text: '5M'
+      }, {
+          type: 'all',
+          text: 'All'
+      }],
+      inputEnabled: false,
+      selected: 0
+  },
+  
+  title: {
+      text: type
+  },
+  
+  exporting: {
+      enabled: false
+  },
+  
+  series: [{
+      name: 'chart',
+      data: [ ]
+  }],
+  credits: {
+    enabled: false
+  },
+  }
 
 const getNewData = async () => {
   if(chartComponent.current?.chart?.series){
@@ -81,8 +79,11 @@ const getNewData = async () => {
       `${API}${projectName}`,
       )
       const series = chartComponent.current.chart.series[0]
+      const results = response.data.results
+      console.log('results', results)
+const newData = type==='Floor'? results.floorPrice/LAMPORTS_PER_SOL: results.listedCount
+      series.addPoint([(new Date()).getTime(), newData], true, false);
 
-      series.addPoint([(new Date()).getTime(), response.data.results.floorPrice/LAMPORTS_PER_SOL], true, false);
     }
  
 }
