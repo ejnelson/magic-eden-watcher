@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {Watcher} from './components/Watcher';
 import {useState}from 'react';
@@ -12,7 +11,6 @@ const [watcherName, setWatcherName] = useState('')
 
   const handleSubmit=(event)=> {
     event.preventDefault();
-    console.log('A name was submitted: ' + projectName);
     setWatcherName(projectName)
     // alert('A name was submitted: ' + projectName);
   }

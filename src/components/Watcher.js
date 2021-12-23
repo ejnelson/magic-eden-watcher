@@ -1,5 +1,4 @@
-import {useRef, useState, useEffect} from "react";
-import { render } from "react-dom";
+import {useRef, } from "react";
 // Import Highcharts
 import Highcharts from "highcharts/highstock";
 //import HighchartsReact from "./HighchartsReact.min.js";
@@ -47,7 +46,10 @@ exporting: {
 series: [{
     name: 'Price',
     data: [ ]
-}]
+}],
+credits: {
+  enabled: false
+},
 }
 
 
@@ -70,7 +72,6 @@ const LAMPORTS_PER_SOL = 1000000000;
 export const Watcher=({projectName})=> {
 const chartComponent=useRef(null); 
 
-console.log('projectsdfsdfName', projectName)
 
 
 const getNewData = async () => {
@@ -79,8 +80,6 @@ const getNewData = async () => {
     let response = await axios.get(
       `${API}${projectName}`,
       )
-      console.log('response', response)
-      console.log('chart', chartComponent.current)
       const series = chartComponent.current.chart.series[0]
 
       series.addPoint([(new Date()).getTime(), response.data.results.floorPrice/LAMPORTS_PER_SOL], true, false);
