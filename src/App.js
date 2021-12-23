@@ -24,6 +24,8 @@ const [watcherName, setWatcherName] = useState('')
       <button type="button"  onClick={handleSubmit} disabled={!!watcherName}>Submit</button>
       {watcherName&&<Watcher type={'Floor'} projectName={watcherName}/>}
       {watcherName&&<Watcher type={'Listed'} projectName={watcherName}/>}
+      {watcherName&&<Watcher type={'Volume'} projectName={watcherName}/>}
+
     </div>
   );
 }

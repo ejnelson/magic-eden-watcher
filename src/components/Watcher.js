@@ -81,7 +81,7 @@ const getNewData = async () => {
       const series = chartComponent.current.chart.series[0]
       const results = response.data.results
       console.log('results', results)
-const newData = type==='Floor'? results.floorPrice/LAMPORTS_PER_SOL: results.listedCount
+const newData = type==='Floor'? results.floorPrice/LAMPORTS_PER_SOL: type ==='Listed'? results.listedCount:results.volumeAll
       series.addPoint([(new Date()).getTime(), newData], true, false);
 
     }
