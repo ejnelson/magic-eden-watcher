@@ -28,8 +28,7 @@ function App() {
                 disabled={!!watcherName}
             >
                 Submit
-            </button>{' '}
-            tipjar: ejn.sol
+            </button>
             {watcherName && (
                 <Watcher chartType={'Floor'} projectName={watcherName} />
             )}
