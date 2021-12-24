@@ -13,22 +13,23 @@ function App() {
     const handleSubmit = (event) => {
         event.preventDefault()
         setWatcherName(projectName)
-        // alert('A name was submitted: ' + projectName);
     }
 
     return (
         <div className="App">
-            <label>
-                Magic eden string name:
-                <input type="text" name="projectName" onChange={handleChange} />
-            </label>
-            <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={!!watcherName}
-            >
-                Submit
-            </button>
+            <form>
+                <label>
+                    Magic eden string name:
+                    <input
+                        type="text"
+                        name="projectName"
+                        onChange={handleChange}
+                    />
+                </label>
+                <button onClick={handleSubmit} disabled={!!watcherName}>
+                    Submit
+                </button>
+            </form>
             {watcherName && (
                 <Watcher chartType={'Floor'} projectName={watcherName} />
             )}

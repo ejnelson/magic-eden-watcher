@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import axios from 'axios'
+import { filter, find } from 'lodash'
 
 const LISTED_NFT_API =
     'https://api-mainnet.magiceden.io/rpc/getListedNFTsByQuery'
@@ -80,19 +81,26 @@ export const Watcher = ({ projectName, chartType }) => {
                 const series5th = chartComponent.current.chart.series[1]
                 const series10th = chartComponent.current.chart.series[2]
 
-                let response = await axios.get(LISTED_NFT_API, {
+                let {
+                    data: { results },
+                } = await axios.get(LISTED_NFT_API, {
                     params: {
                         q: {
                             $match: { collectionSymbol: projectName },
                             $sort: { takerAmount: 1, createdAt: -1 },
                             $skip: 0,
-                            $limit: 10,
+                            $limit: 15,
                         },
                     },
                 })
-                const floorPrice = response.data.results[0].price
-                const fifthFromFloorPrice = response.data.results[4].price
-                const tenthFromFloorPrice = response.data.results[9].price
+                const filteredResults = filter(
+                    results,
+                    (result) => result.price > 0
+                )
+                console.log('filteredResults', filteredResults)
+                const floorPrice = filteredResults[0].price
+                const fifthFromFloorPrice = filteredResults[4].price
+                const tenthFromFloorPrice = filteredResults[9].price
 
                 seriesFloor.addPoint(
                     [new Date().getTime(), floorPrice],
